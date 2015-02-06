@@ -23,8 +23,6 @@ public class BlockDataBase {
 				}
 			}
 		}
-		sizeListX.Sort ();
-		sizeListY.Sort ();
 		int[,] sizes = new int[sizeListX.Count,2];
 		for (int y = 0; y < sizeListX.Count; y++) {
 			sizes[y,0] = sizeListX[y];

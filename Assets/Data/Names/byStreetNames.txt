@@ -1,0 +1,4 @@
+way
+street
+avenue
+road

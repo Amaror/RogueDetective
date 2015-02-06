@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using System;
 
 public class MapGenerator {
@@ -61,12 +62,32 @@ public class MapGenerator {
 
 	//Generate Blocks for the generated Districts
 	private void generateBlocks(int districtNumber) {
+		System.Random lRandom = new System.Random ();
 		District lDistrict = dataMap.districtArray [districtNumber];
 		int[,] lBlockSizes = blockDataBase.getBlockSizes (lDistrict.tagList.ToArray());
+		List<Block> lBlockList = new List<Block>();
+		int lMinX = 100;
+		int lMinY = 100;
+		for (int x = 0; x < lBlockSizes.GetLength(); x++) {
+			if(lBlockSizes[x,0] <= lMinX && lBlockSizes[x,1] <= lMinY) {
+				lMinX = lBlockSizes[x,0];
+				lMinY = lBlockSizes[x,1];
+			}
+		}
 
 		//While Schleife für Blockgenerierung
 		int lRestSizeX = lDistrict.sizeX;
 		int lRestSizeY = lDistrict.sizeY;
+		int lX;
+
+		while(lRestSizeX >= lMinX && lRestSizeY >= lMinY) do {
+			lX = lRandom.Next(0, lBlockSizes.GetLength());
+			if((lRestSizeX - lBlockSizes[lX,0] == 0 && lRestSizeY - lBlockSizes[lX,1] == 0) ||
+			   (lRestSizeX - lBlockSizes[lX,0] >= lMinX && lRestSizeY - lBlockSizes[lX,1] >= lMinY) ||
+			   (lBlockSizes[lX,0] == lMinX && lBlockSizes[lX,1] == lMinY)) {
+				lBlockList.Add(new Block())
+			}
+		}
 	}
 
 
