@@ -1,7 +1,7 @@
 ﻿public static class ApplicationModel {
 
 	//Map Information
-	public static int _sizeX = 60;
-	public static int _sizeY = 60;
-	public static int _numberOfDistricts = 9;
+	public static int sizeX = 60;
+	public static int sizeY = 60;
+	public static int numberOfDistricts = 9;
 }

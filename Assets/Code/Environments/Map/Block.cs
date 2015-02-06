@@ -3,10 +3,10 @@
 public class Block{
 
 	//Boundaries
-	public Vector2 _boundarySouth;
-	public Vector2 _boundaryNorth;
+	public Vector2 boundarySouth;
+	public Vector2 boundaryNorth;
 	//Tiles
-	public int[,] _tiles;
+	public int[,] tileArray;
 
 	public Block() {
 	}

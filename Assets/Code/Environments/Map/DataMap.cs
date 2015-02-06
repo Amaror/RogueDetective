@@ -1,15 +1,15 @@
 ﻿public class DataMap{
 
 	//Map Size
-	private int _sizeX;
-	private int _sizeY;
+	private int sizeX;
+	private int sizeY;
 	//Map Information
-	public District[] _districts;
-	public DataTile[,] _tiles;
+	public District[] districtArray;
+	public DataTile[,] tileArray;
 
-	public DataMap(int sizeX, int sizeY) {
-		_sizeX = sizeX;
-		_sizeY = sizeY;
+	public DataMap(int pSizeX, int pSizeY) {
+		sizeX = sizeX;
+		sizeY = sizeY;
 	}
 
 

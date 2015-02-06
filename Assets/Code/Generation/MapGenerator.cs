@@ -3,28 +3,31 @@ using System;
 
 public class MapGenerator {
 
-	public DataMap _dataMap;
+	public DataMap dataMap;
+	//Database for different Blocks
+	private BlockDataBase blockDataBase;
 
 	public MapGenerator() {
+		blockDataBase = new BlockDataBase ();
 	}
 
 	//Manages Map Generation
 	public void generateMap() {
 		//Basix Map Setup
-		int sizeX = ApplicationModel._sizeX;
-		int sizeY = ApplicationModel._sizeY;
-		_dataMap = new DataMap (sizeX, sizeY);
-		_dataMap._tiles = new DataTile[sizeX, sizeY];
+		int lSizeX = ApplicationModel.sizeX;
+		int lSizeY = ApplicationModel.sizeY;
+		dataMap = new DataMap (lSizeX, lSizeY);
+		dataMap.tileArray = new DataTile[lSizeX, lSizeY];
 
 		//Determine the Layout based on the Number of Districts
-		for (int x = 1; x < (ApplicationModel._numberOfDistricts); x++) {
-			if ((Math.Sqrt (ApplicationModel._numberOfDistricts - x) % 1) == 0) 
+		for (int x = 1; x < (ApplicationModel.numberOfDistricts); x++) {
+			if ((Math.Sqrt (ApplicationModel.numberOfDistricts - x) % 1) == 0) 
 			{
-				generateDistricts((int)Math.Sqrt (ApplicationModel._numberOfDistricts - x), x);
-				x = ApplicationModel._numberOfDistricts;
+				generateDistricts((int)Math.Sqrt (ApplicationModel.numberOfDistricts - x), x);
+				x = ApplicationModel.numberOfDistricts;
 			} 
 		}
-		for (int x = 0; x < ApplicationModel._numberOfDistricts; x++) {
+		for (int x = 0; x < ApplicationModel.numberOfDistricts; x++) {
 			generateBlocks(x);
 		}
 
@@ -32,34 +35,38 @@ public class MapGenerator {
 	}
 
 	//Generate Districts
-	private void generateDistricts(int squareRootDistricts, int additionalDistricts) {
-		District[] districts = new District[ApplicationModel._numberOfDistricts];
-		int districtSizeX = Mathf.FloorToInt(ApplicationModel._sizeX / (squareRootDistricts + additionalDistricts));
-		int districtSizeY = Mathf.FloorToInt(ApplicationModel._sizeY / squareRootDistricts);
+	private void generateDistricts(int pSquareRootDistricts, int pAdditionalDistricts) {
+		District[] lDistrictArray = new District[ApplicationModel.numberOfDistricts];
+		int lDistrictSizeX = Mathf.FloorToInt(ApplicationModel.sizeX / (pSquareRootDistricts + pAdditionalDistricts));
+		int lDistrictSizeY = Mathf.FloorToInt(ApplicationModel.sizeY / pSquareRootDistricts);
 
-		for (int y = 0; y < squareRootDistricts; y++) {
-			for(int x = 0; x < squareRootDistricts; x++) {
-				Vector2 south = new Vector2(x * districtSizeX, y * districtSizeY);
-				Vector2 north = new Vector2((x+1) * districtSizeX, (y+1) * districtSizeY);
-				districts[(y*3)+x] = new District(south, north);
+		for (int y = 0; y < pSquareRootDistricts; y++) {
+			for(int x = 0; x < pSquareRootDistricts; x++) {
+				Vector2 south = new Vector2(x * lDistrictSizeX, y * lDistrictSizeY);
+				Vector2 north = new Vector2((x+1) * lDistrictSizeX, (y+1) * lDistrictSizeY);
+				lDistrictArray[(y*3)+x] = new District(south, north);
 			}
 		}
-		for (int x = 0; x < additionalDistricts; x++) {
-			Vector2 south = new Vector2(x * districtSizeX, 0);
-			Vector2 north = new Vector2((x+1) * districtSizeX, ApplicationModel._sizeY);
-			if(x == additionalDistricts - 1) {
-				north.x = ApplicationModel._sizeX;
+		for (int x = 0; x < pAdditionalDistricts; x++) {
+			Vector2 south = new Vector2(x * lDistrictSizeX, 0);
+			Vector2 north = new Vector2((x+1) * lDistrictSizeX, ApplicationModel.sizeY);
+			if(x == pAdditionalDistricts - 1) {
+				north.x = ApplicationModel.sizeX;
 			}
-			districts[(squareRootDistricts * squareRootDistricts) + x] = new District(south, north);
+			lDistrictArray[(pSquareRootDistricts * pSquareRootDistricts) + x] = new District(south, north);
 		}
 
-		_dataMap._districts = districts;
+		dataMap.districtArray = lDistrictArray;
 	}
 
 	//Generate Blocks for the generated Districts
 	private void generateBlocks(int districtNumber) {
-		District district = _dataMap._districts [districtNumber];
+		District lDistrict = dataMap.districtArray [districtNumber];
+		int[,] lBlockSizes = blockDataBase.getBlockSizes (lDistrict.tagList.ToArray());
 
+		//While Schleife für Blockgenerierung
+		int lRestSizeX = lDistrict.sizeX;
+		int lRestSizeY = lDistrict.sizeY;
 	}
 
 
